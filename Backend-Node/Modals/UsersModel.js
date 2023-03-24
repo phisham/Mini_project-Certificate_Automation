@@ -1,20 +1,41 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const UserSchema = new mongoose.Schema({
-    
+const facultySchema = new mongoose.Schema({
+    employeeNo:{
+        type:String,
+        required:true
+    },
+    role:{
+        type:Number,
+        required:true
+    },
+    name:{
+        type:String,
+        required:true,
+    },
+    department:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true       
+    },
+    phoneNumber:{
+        type:String,
+        required:true
+    },
+    image:{
+        type:String,
+        default:
+    },
+    dateOfJoining:{
+        type:Date,
+        required:true       
+    },
 });
 
-
-UserSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
-        returnedObject.id = returnedObject._id.toString()
-        delete returnedObject._id
-        delete returnedObject.__v
-        //do not reveal passwordHash
-        delete returnedObject.password
-    }
-})
 
 const User =  mongoose.model("user", UserSchema);
 
