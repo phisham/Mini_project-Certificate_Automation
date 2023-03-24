@@ -60,6 +60,42 @@ const studentSchema = new mongoose.Schema({
 
 
 
-const Student =  mongoose.model("student", studentSchema);
+const facultySchema = new mongoose.Schema({
+    employeeNo: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: Number,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    department: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        default:
+    },
+    dateOfJoining: {
+        type: Date,
+        required: true
+    },
+});
 
-module.exports = {Student};
+const Student =  mongoose.model("student", studentSchema);
+const Faculty = mongoose.model("faculty", facultySchema);
+
+module.exports = { Student,Faculty };
