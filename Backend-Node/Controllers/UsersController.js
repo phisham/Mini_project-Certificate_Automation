@@ -1,22 +1,42 @@
 const express = require('express')
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const userServices=require('../Services/UserService');
-const {User}=require('../Modals/UsersModel');
+// const userServices=require('../Services/UserService');
+const { Student, Faculty, Dean, Principal } = require('../Modals/UsersModel');
 const multer=require('multer');
 
 
-router.post('/register', (req, res, next) => {
-    
-    const {password} = req.body
-    const salt = bcrypt.genSaltSync(10);
-    req.body.password = bcrypt.hashSync(password, salt);
+router.post('/register', async (req, res, next) => {
+    const User = ["Student", "Faculty", "Dean", "Principal"];
 
-    userServices.register(req.body).then(
-        () => {return res.json('success')}
-    ).catch(
-        err => {return res.json(err)}
-    )
+    if(User === "Student"){
+        const User = Student
+    }else if(User === "Faculty"){
+        const User = Faculty
+    }else if(User === "Dean"){
+        const User = Dean
+    }else if(User === "Principal"){
+        const User = Principal
+    }
+
+    const user = new User(req.body);
+
+    try {
+        await user.save();
+        res.status(201).send("student saved successfuly...");
+    } catch (error) {
+        res.status(400).send(e);
+    }
+    
+    // const {password} = req.body
+    // const salt = bcrypt.genSaltSync(10);
+    // req.body.password = bcrypt.hashSync(password, salt);
+
+    // userServices.register(req.body).then(
+    //     () => {return res.json('success')}
+    // ).catch(
+    //     err => {return res.json(err)}
+    // )
 })
 
 // router.get('/details',async(req,res) => {

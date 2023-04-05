@@ -1,10 +1,9 @@
-
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const auth = require('./Helpers/jwt');
 const unless = require('express-unless')
-const users = require('./Controllers/UsersController');
+const users = require('./Controllers/UserController');
 const errors = require('./Helpers/ErrorHandler');
 const cors = require('cors');
 // middleware for authenticating token submitted with requests
@@ -19,9 +18,9 @@ auth.authenticateToken.unless = unless
 // }))
 app.use(cors());
 
-app.use('./uploads', express.static('uploads'));
+// app.use('./uploads', express.static('uploads'));
 app.use(express.json()) // middleware for parsing application/json
-app.use('/users', users) // middleware for listening to routes
+app.use('/', users) 
 app.use(errors.errorHandler);
 
 mongoose.connect('mongodb+srv://test:test123@cluster0.y9j3h3i.mongodb.net/?retryWrites=true&w=majority')
