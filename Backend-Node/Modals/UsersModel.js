@@ -153,9 +153,24 @@ const deanSchema = new mongoose.Schema({
     },
 })
 
+const certificateApplicationSchema = new mongoose.Schema({
+    name: String,
+    admissionNo: Number,
+    scholarshipName: String,
+    certificateType: [String],
+    photo: String,
+    department: String,
+    class: String,
+    semester: String,
+    status: String,
+    // ...
+});
+
+
 const Student = mongoose.model("student", studentSchema);
 const Faculty = mongoose.model("faculty", facultySchema);
 const Dean = mongoose.model("dean", deanSchema);
 const Principal = mongoose.model("principal", principalSchema);
+const CertificateApplication = mongoose.model('CertificateApplication', certificateApplicationSchema);
 
-module.exports = { Student, Faculty, Dean, Principal };
+module.exports = { Student, Faculty, Dean, Principal, CertificateApplication };
