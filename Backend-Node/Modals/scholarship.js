@@ -45,6 +45,9 @@ const certificateApplicationSchema = new mongoose.Schema({
     studentId: {
         type: mongoose.Types.ObjectId,
         ref: studentSchema
+    },
+    remarks: {
+        type: String
     }
 });
 
