@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema({
+    staffAdvisorAssigned: {
+        type: mongoose.Types.ObjectId,
+        ref: facultySchema,
+    },
     email: {
         type: String
     },
@@ -62,9 +66,14 @@ const studentSchema = new mongoose.Schema({
     }
 });
 
-
-
 const facultySchema = new mongoose.Schema({
+    hodAssigned: {
+        type: mongoose.Types.ObjectId,
+    },
+    deanAssigned: {
+        type: mongoose.Types.ObjectId,
+        ref: deanSchema,
+    },
     employeeNo: {
         type: String,
         required: true
@@ -158,4 +167,4 @@ const Faculty = mongoose.model("faculty", facultySchema);
 const Dean = mongoose.model("dean", deanSchema);
 const Principal = mongoose.model("principal", principalSchema);
 
-module.exports = { Student, Faculty, Dean, Principal, CertificateApplication };
+module.exports = { Student, Faculty, Dean, Principal };

@@ -36,15 +36,12 @@ const certificateApplicationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    from: {
-        type: mongoose.Types.ObjectId,
-    },
     to: {
         type: mongoose.Types.ObjectId,
     }, 
     studentId: {
         type: mongoose.Types.ObjectId,
-        ref: studentSchema
+        ref: Student
     },
     remarks: {
         type: String
