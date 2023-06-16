@@ -24,8 +24,8 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    batch: {
-        type: Number,
+    branch: {
+        type: String,
         required: true
     },
     image: {
@@ -34,13 +34,13 @@ const studentSchema = new mongoose.Schema({
     },
     address: {
         type: String,
-        required: true,
+        
     },
     annualIncome: {
         type: String
     },
     phoneNumber: {
-        type: String
+        type: Number,
     },
     staffAdvisor: {
         type: String
@@ -55,8 +55,11 @@ const studentSchema = new mongoose.Schema({
     },
     cgpa: {
         type: Number,
+    },
+    approved:{
+        type:Boolean,
+        default:false
     }
-
 });
 
 
@@ -78,13 +81,12 @@ const facultySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
+    password: {
+        type: String,        
         required: true
     },
     phoneNumber: {
-        type: String,
-        required: true
+        type: Number,
     },
     image: {
         type: String,
@@ -106,13 +108,12 @@ const principalSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    email: {
+    password: {
         type: String,
         required: true
     },
     phoneNumber: {
-        type: String,
-        required: true
+        type: Number,
     },
     image: {
         type: String,
@@ -140,8 +141,7 @@ const deanSchema = new mongoose.Schema({
         required: true
     },
     phoneNumber: {
-        type: String,
-        required: true
+        type: Number,
     },
     image: {
         type: String,

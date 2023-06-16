@@ -6,26 +6,37 @@ const { Student, Faculty, Dean, Principal } = require('../Modals/UsersModel');
 const multer=require('multer');
 
 
-router.post('/register', async (req, res, next) => {
-    const User = ["Student", "Faculty", "Dean", "Principal"];
+router.post('/register/:userType', async (req, res, next) => {
+    const userType=req.params.userType;
+    let User;
 
-    if(User === "Student"){
-        const User = Student
-    }else if(User === "Faculty"){
-        const User = Faculty
-    }else if(User === "Dean"){
-        const User = Dean
-    }else if(User === "Principal"){
-        const User = Principal
+    switch(userType){
+        case 'Student':{
+            User = Student;
+            break;
+        }
+        case 'Faculty':{
+            User = Faculty;
+            break;
+        }
+        case 'Dean':{
+            User = Dean;
+            break;
+        }
+        case 'Principal':{
+            User = Principal;
+            break;
+        }
     }
+
 
     const user = new User(req.body);
 
     try {
         await user.save();
-        res.status(201).send("student saved successfuly...");
+        return res.json("Saved successfully");
     } catch (error) {
-        res.status(400).send(e);
+        return res.json(error);
     }
     
     // const {password} = req.body

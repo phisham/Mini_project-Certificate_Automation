@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const auth = require('./Helpers/jwt');
 const unless = require('express-unless')
-const users = require('./Controllers/UserController');
+const users = require('./Controllers/UsersController');
 const errors = require('./Helpers/ErrorHandler');
 const cors = require('cors');
 // middleware for authenticating token submitted with requests
@@ -20,10 +20,10 @@ app.use(cors());
 
 // app.use('./uploads', express.static('uploads'));
 app.use(express.json()) // middleware for parsing application/json
-app.use('/', users) 
+app.use('/', users) ;
 app.use(errors.errorHandler);
 
-mongoose.connect('mongodb+srv://test:test123@cluster0.y9j3h3i.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://phisham100:Hisham%4021@cluster0.jmjq8.mongodb.net/certificate-automation?retryWrites=true&w=majority')
 .then(console.log("MongoDB connected...."));
  
 // get reference to database
