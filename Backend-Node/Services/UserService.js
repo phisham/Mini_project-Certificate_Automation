@@ -1,15 +1,13 @@
-const {User}=require('../Modals/UsersModel');
+const {Student,Faculty,Dean,Principal}=require('../Modals/UsersModel');
 const bcrypt = require('bcryptjs');
 const auth=require('../Helpers/jwt');
 
-async function login({ username, password }) {
-    let user = await User.findOne({username});
-    if(!user){
-        user=await User.findOne({"email":username});
-    }
-
+async function login({ employeeNo, password }) {
+    
+    let user = await Dean.findOne({employeeNo:employeeNo}) || await Student.findOne({admissionNo:employeeNo}) || await Faculty.findOne({employeeNo:employeeNo}) || await Principal.findOne({employeeNo:employeeNo});
+    console.log(user);
     if(user){
-        if(bcrypt.compareSync(password, user.password)){
+        if(bcrypt.compareSync(password,user.password)){
         
             const token = auth.generateAccessToken(user);
 

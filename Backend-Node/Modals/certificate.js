@@ -10,7 +10,23 @@ const certificateApplicationSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    scholarshipName: {
+    regNo:{
+        type: String,
+        required: true
+    },
+    program:{
+        type:String,
+        required: true
+    },
+    email:{
+        type: String,
+        required: true
+    },
+    phoneNumber:{
+        type:Number,
+        required: true
+    },
+    scholarship: {
         type: String,
         required: true
     },
@@ -20,16 +36,8 @@ const certificateApplicationSchema = new mongoose.Schema({
     photo: {
         type: String,
     },
-    department: {
-        type: String,
-        required: true
-    },
     semester: {
-        type: Number,
-        required: true
-    },
-    class: {
-        type: Number,
+        type: String,
         required: true
     },
     status: {
@@ -44,7 +52,7 @@ const certificateApplicationSchema = new mongoose.Schema({
     }, 
     studentId: {
         type: mongoose.Types.ObjectId,
-        ref: studentSchema
+        ref: Student
     },
     remarks: {
         type: String

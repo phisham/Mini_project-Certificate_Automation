@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const userServices = require('../Services/UserService');
 // const userServices=require('../Services/UserService');
-const { Student, Faculty, Dean, Principal } = require('../Modals/UsersModel');
+const { Student, Faculty, Dean,Principal } = require('../Modals/UsersModel');
 const multer=require('multer');
+const { CertificateApplication } = require('../Modals/certificate');
 
 
 router.post('/register/:userType', async (req, res, next) => {
@@ -29,14 +31,17 @@ router.post('/register/:userType', async (req, res, next) => {
         }
     }
 
+    const salt = bcrypt.genSaltSync(10);
+    req.body.password = bcrypt.hashSync(req.body.password, salt);
 
-    const user = new User(req.body);
+
 
     try {
+        const user = new User(req.body);
         await user.save();
         return res.json("Saved successfully");
     } catch (error) {
-        return res.json(error);
+        return res.status(400).json(error);
     }
     
     // const {password} = req.body
@@ -61,8 +66,9 @@ router.post('/register/:userType', async (req, res, next) => {
 // })
 
 router.post('/login', (req, res, next) => {
-    const { username, password} = req.body;
-    userServices.login({ username, password})
+    const { employeeNo, password} = req.body;
+    
+    userServices.login({ employeeNo, password})
         .then((user) => {
             if(user)
                 return res.json(user)
@@ -70,18 +76,61 @@ router.post('/login', (req, res, next) => {
                 return res.sendStatus(500);
         }
     )
-
+    
     
 })
 
-router.get('/get/:id', async (req, res, next) => {
-    let data=await User.findById(req.params.id);
-    return res.json(data);
+router.get('/get/:user', async (req, res, next) => {
+    if(req.params.user=='dean'){
+        const data=await Dean.find({approved:false});
+        return res.json(data);
+    }
+    else if(req.params.user=='student'){
+        const data=await Student.find({approved:false});
+        return res.json(data);
+    }
+    else if(req.params.user=='faculty'){
+        const data=await Faculty.find({approved:false});
+        return res.json(data);
+    }
+    else if(req.params.user=='principal'){
+        const data=await Principal.find({approved:false});
+        return res.json(data);
+    }
+    
 })
 
-router.get('/getAll', async (req, res, next) => {
-    let data=await User.find({});
-    return res.json(data);
+router.patch('/acceptUser/:id',async(req,res)=>{
+    try{
+        const data=await Dean.findByIdAndUpdate(req.params.id,req.body) || await Student.findByIdAndUpdate(req.params.id,req.body) || await Faculty.findByIdAndUpdate(req.params.id,req.body);
+        return res.json(data);
+    }
+    catch(error){
+        return res.json(error)
+    }
+    
+    
+})
+
+router.patch('/forward/:id',async(req,res)=>{
+    try{
+        const data=await CertificateApplication.findByIdAndUpdate(req.params.id,req.body);
+        return res.json(data);
+    }
+    catch(error){
+        return res.json(error)
+    }
+    
+    
+})
+router.get('/getApplicationForms/:id', async (req, res, next) => {
+    try{
+        let data=await CertificateApplication.find({to:req.params.id});
+        return res.json(data);
+    }
+    catch(error){
+        return res.json(error);
+    }
 })
 
 router.patch('/sendFriendRequest',async(req,res)=>{

@@ -43,7 +43,7 @@ const studentSchema = new mongoose.Schema({
         type: Number,
     },
     staffAdvisor: {
-        type: String
+        type: mongoose.Types.ObjectId
     },
     department: {
         type: String,
@@ -59,6 +59,10 @@ const studentSchema = new mongoose.Schema({
     approved:{
         type:Boolean,
         default:false
+    },
+    userType:{
+        type:String,
+        default:"student"
     }
 });
 
@@ -79,7 +83,12 @@ const facultySchema = new mongoose.Schema({
     },
     department: {
         type: String,
-        required: true
+    },
+    hod:{
+        type: mongoose.Types.ObjectId
+    },
+    dean:{
+        type: mongoose.Types.ObjectId
     },
     password: {
         type: String,        
@@ -96,6 +105,14 @@ const facultySchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    approved:{
+        type:Boolean,
+        default:false
+    },
+    userType:{
+        type:String,
+        default:"faculty"
+    }
 });
 
 
@@ -123,7 +140,14 @@ const principalSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-
+    approved:{
+        type:Boolean,
+        default:true
+    },
+    userType:{
+        type:String,
+        default:"principal"
+    }
 });
 
 
@@ -136,9 +160,12 @@ const deanSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    email: {
+    password: {
         type: String,
         required: true
+    },
+    email:{
+        type:String,
     },
     phoneNumber: {
         type: Number,
@@ -151,6 +178,17 @@ const deanSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    principal:{
+        type: mongoose.Types.ObjectId
+    },
+    approved:{
+        type:Boolean,
+        default:false
+    },
+    userType:{
+        type:String,
+        default:"dean"
+    }
 })
 
 const Student = mongoose.model("student", studentSchema);
@@ -158,4 +196,4 @@ const Faculty = mongoose.model("faculty", facultySchema);
 const Dean = mongoose.model("dean", deanSchema);
 const Principal = mongoose.model("principal", principalSchema);
 
-module.exports = { Student, Faculty, Dean, Principal, CertificateApplication };
+module.exports = { Student, Faculty, Dean, Principal, };
