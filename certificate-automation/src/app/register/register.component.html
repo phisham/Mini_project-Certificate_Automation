@@ -1,0 +1,97 @@
+<div class="left">
+</div>
+<main class="main">
+  <div class="box">
+    <div class="logo">
+      <div class="outer-pic-logo">
+        <div class="pic-logo">
+        <img src="assets/logonew.jpg" alt="">
+      </div>
+      </div>
+      <span class="text-logo">COLLEGE OF ENGINEERING TRIVANDRUM</span>
+    </div>
+    <div class="outer_form">
+      <form class="form " [formGroup]="registerForm" (ngSubmit)="login()">
+
+        <h2 class="title">Register</h2>
+
+        <div class="inner_content px-1">
+          <div class="flex flex-col">
+            <mat-label class="label mb-5">User Type <span *ngIf="!registerForm.get('userType')?.errors">✔️</span></mat-label>
+            <mat-select formControlName="userType" class="txt" placeholder="Select User Type">
+              <mat-option *ngFor="let user of userTypes" [value]="user">{{user}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.get('userType')?.hasError('required') && registerForm.get('userType')?.touched" class="error">Semester is required</mat-error>
+          </div>
+          <div class="flex flex-col" >
+            <mat-label class="label mb-5">{{role?.value!='Student' ? 'Employee Number':'Admission Number'}}<span *ngIf="!registerForm.get('admissionNo')?.errors">✔️</span></mat-label>
+            <input formControlName="admissionNo" class="txt" type="text" placeholder="Enter Admission No." matInput>
+            <mat-error *ngIf="registerForm.get('admissionNo')?.hasError('required') && registerForm.get('admissionNo')?.touched" class="error">Admission number is required</mat-error>
+          </div>
+
+          <div class="flex flex-col">
+            <mat-label class="label mt-5">Password <span *ngIf="!registerForm.get('password')?.errors">✔️</span></mat-label>
+            <input formControlName="password" class="txt" type="password" placeholder="Enter Password" matInput>
+            <mat-error class="error" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">Password is required</mat-error>
+            <mat-error class="error" *ngIf="!registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched && registerForm.get('password')?.errors">Password should have Atleast 8 charecters , one lower case,upper case and one special charecter </mat-error>
+          </div>
+          <div class="flex flex-col">
+            <mat-label class="label mb-5">Name <span *ngIf="!registerForm.get('name')?.errors">✔️</span></mat-label>
+            <input formControlName="name" class="txt" type="text" placeholder="Enter Name" matInput>
+            <mat-error *ngIf="registerForm.get('name')?.hasError('required') && registerForm.get('name')?.touched" class="error">Name is required</mat-error>
+          </div>
+
+          <div class="flex flex-col" *ngIf="role?.value=='Student'">
+            <mat-label class="label mb-5">Program <span *ngIf="!registerForm.get('program')?.errors">✔️</span></mat-label>
+            <mat-select formControlName="program" class="txt" placeholder="Select Program">
+              <mat-option *ngFor="let prg of programs" [value]="prg">{{prg}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.get('program')?.hasError('required') && registerForm.get('program')?.touched" class="error">Select a program</mat-error>
+          </div>
+          <div class="flex flex-col" *ngIf="role?.value=='Student'">
+            <mat-label class="label mb-5">Semester <span *ngIf="!registerForm.get('semester')?.errors">✔️</span></mat-label>
+            <mat-select formControlName="semester" class="txt" placeholder="Select Semester">
+              <mat-option *ngFor="let sem of semesters" [value]="sem">{{sem}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.get('semester')?.hasError('required') && registerForm.get('semester')?.touched" class="error">Semester is required</mat-error>
+          </div>
+
+          <div class="flex flex-col" *ngIf="role?.value=='Student'">
+            <mat-label class="label mb-5">Department <span *ngIf="!registerForm.get('department')?.errors">✔️</span></mat-label>
+            <mat-select formControlName="department" class="txt" placeholder="Select department">
+              <mat-option *ngFor="let branch of branches" [value]="branch">{{branch}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.get('department')?.hasError('required') && registerForm.get('department')?.touched" class="error">Branch is required</mat-error>
+          </div>
+
+          <div class="flex flex-col" *ngIf="role?.value=='Student'">
+            <mat-label class="label mb-5">12th Percentage <span *ngIf="!registerForm.get('twelfthPercentage')?.errors">✔️</span></mat-label>
+            <input formControlName="twelfthPercentage" class="txt" type="number" placeholder="Enter Marks Percentage" matInput>
+            <mat-error *ngIf="registerForm.get('twelfthPercentage')?.hasError('required') && registerForm.get('twelfthPercentage')?.touched" class="error">12th Percentage is required</mat-error>
+          </div>
+          <div class="flex flex-col" *ngIf="role?.value!='Student'">
+            <mat-label class="label mb-5">Date of Joining <span *ngIf="!registerForm.get('dateOfJoining')?.errors">✔️</span></mat-label>
+            <input formControlName="dateOfJoining" class="txt" type="date" placeholder="Enter Date " matInput>
+            <mat-error *ngIf="registerForm.get('dateOfJoining')?.hasError('required') && registerForm.get('dateOfJoining')?.touched" class="error">Date of Joining is required</mat-error>
+          </div>
+        </div>
+
+
+
+
+
+
+        <button [disabled]="role?.invalid || (role?.value=='Student' && (admissionNo?.invalid || password?.invalid || name?.invalid || program?.invalid || semester?.invalid || department?.invalid || twelfthPercentage?.invalid)) || (role?.value!='Student' && (admissionNo?.invalid || password?.invalid || name?.invalid || dateOfJoining?.invalid))" mat-raised-button class="login mt-5" >Sign Up</button>
+
+        <div mat-button style="border: red 1px solid;background:transparent;width: 200px;padding-left: 10px;padding-right: 10px; display: flex;flex-direction: row; justify-content: center;border-radius: 5px;margin-top: 10px;" *ngIf="showError"><mat-error>Username/Password incorrect!!</mat-error></div>
+
+        <div class="sign-up">
+          <span >Already has an account ?</span>
+          <a mat-raised-button class="sign-up-button" routerLink="/login">Sign In</a>
+        </div>
+    </form>
+
+    </div>
+  </div>
+
+</main>
